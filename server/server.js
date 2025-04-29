@@ -27,7 +27,7 @@ mongoose.connect(MONGODB_URI)
 
 // Middleware
 app.use(cors({
-  origin: ['http://localhost:5173', 'https://your-frontend-url.onrender.com'], // Add your Render frontend URL here
+  origin: ['http://localhost:5173', 'https://frcrcecampusconnect.onrender.com/', 'https://frcrce-campus-connect.onrender.com'], // Links frontend and backend
   credentials: true
 }));
 app.use(express.json());
