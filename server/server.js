@@ -25,6 +25,15 @@ mongoose.connect(MONGODB_URI)
     console.error('MongoDB connection error:', err);
   });
 
+// Allow requests from your frontend domain
+const allowedOrigins = ['https://frcrcecampusconnect.onrender.com/'];
+
+app.use(cors({
+  origin: allowedOrigins,
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  credentials: true,
+}));
+
 // Middleware
 app.use(cors({
   origin: ['http://localhost:5173', 'https://frcrcecampusconnect.onrender.com/'], // Links frontend
