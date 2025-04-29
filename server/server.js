@@ -34,13 +34,6 @@ mongoose.connect(MONGODB_URI)
 //     process.exit(1); // Exit process with failure
 //   });
 
-// Middleware
-app.use(cors({
-  origin: ['http://localhost:5173', 'http://localhost:3000', 'http://localhost:8080'], // Adjust these origins if necessary
-  credentials: true
-}));
-app.use(express.json());
-
 // Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
