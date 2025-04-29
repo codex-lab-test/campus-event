@@ -1,8 +1,7 @@
-
 import axios from "axios";
 
 // Configure base API URL
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000/api";
+const API_BASE_URL = "https://frcrce-campus-connect.onrender.com/api"; // Updated backend URL
 
 // Create an axios instance with default config
 const api = axios.create({
@@ -83,7 +82,7 @@ api.interceptors.response.use(
 export const authService = {
   login: async (email: string, password: string) => {
     try {
-      const response = await api.post("/auth/login", { email, password });
+      const response = await api.post(`${API_BASE_URL}/auth/login`, { email, password });
       return response.data;
     } catch (error) {
       throw error;
@@ -92,7 +91,7 @@ export const authService = {
   
   register: async (userData: any) => {
     try {
-      const response = await api.post("/auth/register", userData);
+      const response = await api.post(`${API_BASE_URL}/auth/register`, userData);
       return response.data;
     } catch (error) {
       throw error;
@@ -101,7 +100,7 @@ export const authService = {
   
   logout: async () => {
     try {
-      const response = await api.post("/auth/logout");
+      const response = await api.post(`${API_BASE_URL}/auth/logout`);
       return response.data;
     } catch (error) {
       throw error;
@@ -112,17 +111,17 @@ export const authService = {
 // Events service
 export const eventsService = {
   getAllEvents: async () => {
-    const response = await api.get("/events");
+    const response = await api.get(`${API_BASE_URL}/events`);
     return response.data;
   },
   
   getEventById: async (id: string) => {
-    const response = await api.get(`/events/${id}`);
+    const response = await api.get(`${API_BASE_URL}/events/${id}`);
     return response.data;
   },
   
   registerForEvent: async (eventId: string, registrationData: any) => {
-    const response = await api.post(`/events/${eventId}/register`, registrationData);
+    const response = await api.post(`${API_BASE_URL}/events/${eventId}/register`, registrationData);
     return response.data;
   },
 };
@@ -131,7 +130,7 @@ export const eventsService = {
 export const userService = {
   getProfile: async () => {
     try {
-      const response = await api.get("/users/profile");
+      const response = await api.get(`${API_BASE_URL}/users/profile`);
       return response.data;
     } catch (error) {
       throw error;
@@ -140,7 +139,7 @@ export const userService = {
   
   updateProfile: async (profileData: any) => {
     try {
-      const response = await api.put("/users/profile", profileData);
+      const response = await api.put(`${API_BASE_URL}/users/profile`, profileData);
       return response.data;
     } catch (error) {
       throw error;
@@ -149,7 +148,7 @@ export const userService = {
   
   getUserEvents: async () => {
     try {
-      const response = await api.get("/users/events");
+      const response = await api.get(`${API_BASE_URL}/users/events`);
       return response.data;
     } catch (error) {
       throw error;
@@ -158,7 +157,7 @@ export const userService = {
   
   getUserTeams: async () => {
     try {
-      const response = await api.get("/users/teams");
+      const response = await api.get(`${API_BASE_URL}/users/teams`);
       return response.data;
     } catch (error) {
       throw error;
@@ -169,17 +168,17 @@ export const userService = {
 // Councils service
 export const councilsService = {
   getAllCouncils: async () => {
-    const response = await api.get("/councils");
+    const response = await api.get(`${API_BASE_URL}/councils`);
     return response.data;
   },
   
   getCouncilById: async (id: string) => {
-    const response = await api.get(`/councils/${id}`);
+    const response = await api.get(`${API_BASE_URL}/councils/${id}`);
     return response.data;
   },
   
   applyToCouncil: async (councilId: string, applicationData: any) => {
-    const response = await api.post(`/councils/${councilId}/apply`, applicationData);
+    const response = await api.post(`${API_BASE_URL}/councils/${councilId}/apply`, applicationData);
     return response.data;
   },
 };
@@ -187,17 +186,17 @@ export const councilsService = {
 // Gallery service
 export const galleryService = {
   getAllPhotos: async () => {
-    const response = await api.get("/gallery");
+    const response = await api.get(`${API_BASE_URL}/gallery`);
     return response.data;
   },
   
   getPhotosByCategory: async (category: string) => {
-    const response = await api.get(`/gallery/category/${category}`);
+    const response = await api.get(`${API_BASE_URL}/gallery/category/${category}`);
     return response.data;
   },
   
   getPhotosByEvent: async (eventId: string) => {
-    const response = await api.get(`/gallery/event/${eventId}`);
+    const response = await api.get(`${API_BASE_URL}/gallery/event/${eventId}`);
     return response.data;
   },
 };
@@ -205,28 +204,28 @@ export const galleryService = {
 // Teams service
 export const teamsService = {
   createTeam: async (teamData: any) => {
-    const response = await api.post("/teams", teamData);
+    const response = await api.post(`${API_BASE_URL}/teams`, teamData);
     return response.data;
   },
   
   getTeamById: async (teamId: string) => {
-    const response = await api.get(`/teams/${teamId}`);
+    const response = await api.get(`${API_BASE_URL}/teams/${teamId}`);
     return response.data;
   },
   
   updateTeam: async (teamId: string, teamData: any) => {
-    const response = await api.put(`/teams/${teamId}`, teamData);
+    const response = await api.put(`${API_BASE_URL}/teams/${teamId}`, teamData);
     return response.data;
   },
   
   inviteToTeam: async (teamId: string, inviteData: any) => {
-    const response = await api.post(`/teams/${teamId}/invite`, inviteData);
+    const response = await api.post(`${API_BASE_URL}/teams/${teamId}/invite`, inviteData);
     return response.data;
   },
   
   respondToInvite: async (inviteId: string, responseStatus: string) => {
     try {
-      const apiResponse = await api.post(`/teams/invite/${inviteId}/respond`, { response: responseStatus });
+      const apiResponse = await api.post(`${API_BASE_URL}/teams/invite/${inviteId}/respond`, { response: responseStatus });
       return apiResponse.data;
     } catch (error) {
       throw error;
