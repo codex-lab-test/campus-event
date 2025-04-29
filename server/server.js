@@ -26,7 +26,7 @@ mongoose.connect(MONGODB_URI)
   });
 
 // Allow requests from your frontend domain
-const allowedOrigins = ['https://frcrcecampusconnect.onrender.com/','http://localhost:5173'];
+const allowedOrigins = ['https://frcrcecampusconnect.onrender.com','http://localhost:5173'];
 
 app.use(cors({
   origin: allowedOrigins,
@@ -36,7 +36,7 @@ app.use(cors({
 
 // Middleware
 app.use(cors({
-  origin: ['http://localhost:5173', 'https://frcrcecampusconnect.onrender.com/'], // Links frontend
+  origin: ['http://localhost:5173', 'https://frcrcecampusconnect.onrender.com'], // Links frontend
   credentials: true
 }));
 app.use(express.json());
