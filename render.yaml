@@ -1,6 +1,11 @@
 services:
-  - type: web
-    name: campus-event
-    env: node
+  # Your backend service definition (if any)
+  # ...
+
+  - type: static
+    name: campus-event-frontend
     buildCommand: npm install && npm run build
-    startCommand: npm run dev
+    publishDir: dist
+    envVars:
+      - key: VITE_API_URL
+        value: https://frcrce-campus-connect.onrender.com
