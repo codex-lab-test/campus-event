@@ -9,260 +9,258 @@
     <meta property="og:description" content="Campus Connect Project" />
     <meta property="og:type" content="website" />
     <style>
-/* Base Theme Colors */
-:root {
-  --primary-purple: #7e57c2;
-  --light-purple: #b085f5;
-  --secondary-color: #5e35b1;
-  --background-light: #f5f0ff;
-  --white: #ffffff;
-  --text-dark: #333333;
-  --text-light: #666666;
-  --shadow: rgba(0, 0, 0, 0.1);
-}
+    /* Base Theme Colors */
+    :root {
+        --primary-purple: #7e57c2;
+        --light-purple: #b085f5;
+        --secondary-color: #5e35b1;
+        --background-light: #f5f0ff;
+        --white: #ffffff;
+        --text-dark: #333333;
+        --text-light: #666666;
+        --shadow: rgba(0, 0, 0, 0.1);
+    }
 
-/* Chatbot Container */
-#chatbot-container {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  z-index: 1000;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  font-family: 'Arial', sans-serif;
-}
+    /* Chatbot Container */
+    #chatbot-container {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        z-index: 1000;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        font-family: 'Arial', sans-serif;
+    }
 
-/* Toggle Button */
-#chat-toggle-btn {
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  background-color: var(--primary-purple);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  box-shadow: 0 4px 8px var(--shadow);
-  transition: transform 0.3s ease;
-}
+    /* Toggle Button */
+    #chat-toggle-btn {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        background-color: var(--primary-purple);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        box-shadow: 0 4px 8px var(--shadow);
+        transition: transform 0.3s ease;
+    }
 
-#chat-toggle-btn:hover {
-  transform: scale(1.05);
-  background-color: var(--secondary-color);
-}
+    #chat-toggle-btn:hover {
+        transform: scale(1.05);
+        background-color: var(--secondary-color);
+    }
 
-#chat-toggle-icon {
-  color: var(--white);
-  font-size: 24px;
-}
+    #chat-toggle-icon {
+        color: var(--white);
+        font-size: 24px;
+    }
 
-/* Chat Window */
-#chat-window {
-  width: 350px;
-  height: 500px;
-  background-color: var(--white);
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: 0 5px 15px var(--shadow);
-  margin-bottom: 15px;
-  display: none;
-  flex-direction: column;
-  transition: all 0.3s ease;
-}
+    /* Chat Window */
+    #chat-window {
+        width: 350px;
+        height: 500px;
+        background-color: var(--white);
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 5px 15px var(--shadow);
+        margin-bottom: 15px;
+        display: none;
+        flex-direction: column;
+        transition: all 0.3s ease;
+    }
 
-#chat-window.active {
-  display: flex;
-}
+    #chat-window.active {
+        display: flex;
+    }
 
-/* Chat Header */
-#chat-header {
-  background-color: var(--primary-purple);
-  color: var(--white);
-  padding: 15px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
+    /* Chat Header */
+    #chat-header {
+        background-color: var(--primary-purple);
+        color: var(--white);
+        padding: 15px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
 
-#chat-title {
-  font-weight: 600;
-  margin: 0;
-  font-size: 16px;
-}
+    #chat-title {
+        font-weight: 600;
+        margin: 0;
+        font-size: 16px;
+    }
 
-#language-selector {
-  background-color: transparent;
-  color: var(--white);
-  border: 1px solid rgba(255, 255, 255, 0.5);
-  border-radius: 4px;
-  padding: 4px 8px;
-  font-size: 12px;
-  cursor: pointer;
-  outline: none;
-}
+    #language-selector {
+        background-color: transparent;
+        color: var(--white);
+        border: 1px solid rgba(255, 255, 255, 0.5);
+        border-radius: 4px;
+        padding: 4px 8px;
+        font-size: 12px;
+        cursor: pointer;
+        outline: none;
+    }
 
-#language-selector option {
-  background-color: var(--white);
-  color: var(--text-dark);
-}
+    #language-selector option {
+        background-color: var(--white);
+        color: var(--text-dark);
+    }
 
-/* Chat Messages Area */
-#chat-messages {
-  flex: 1;
-  padding: 15px;
-  overflow-y: auto;
-  background-color: var(--background-light);
-}
+    /* Chat Messages Area */
+    #chat-messages {
+        flex: 1;
+        padding: 15px;
+        overflow-y: auto;
+        background-color: var(--background-light);
+    }
 
-.message {
-  margin-bottom: 12px;
-  max-width: 80%;
-  padding: 10px 12px;
-  border-radius: 8px;
-  line-height: 1.4;
-  font-size: 14px;
-  position: relative;
-}
+    .message, .navapur-message {
+        margin-bottom: 12px;
+        max-width: 80%;
+        padding: 10px 12px;
+        border-radius: 8px;
+        line-height: 1.4;
+        font-size: 14px;
+        position: relative;
+    }
 
-.user-message {
-  background-color: var(--primary-purple);
-  color: var(--white);
-  margin-left: auto;
-  border-bottom-right-radius: 2px;
-}
+    .user-message, .navapur-user-message {
+        background-color: var(--primary-purple);
+        color: var(--white);
+        margin-left: auto;
+        border-bottom-right-radius: 2px;
+    }
 
-.bot-message {
-  background-color: var(--white);
-  color: var(--text-dark);
-  margin-right: auto;
-  border-bottom-left-radius: 2px;
-  border-left: 3px solid var(--light-purple);
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-}
+    .bot-message, .navapur-bot-message {
+        background-color: var(--white);
+        color: var(--text-dark);
+        margin-right: auto;
+        border-bottom-left-radius: 2px;
+        border-left: 3px solid var(--light-purple);
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    }
 
-.typing-indicator {
-  padding: 8px 16px;
-  border-left: 3px solid var(--light-purple);
-}
+    .typing-indicator, .navapur-typing-indicator {
+        padding: 8px 16px;
+        border-left: 3px solid var(--light-purple);
+    }
 
-.typing-indicator span {
-  height: 4px;
-  width: 4px;
-  background-color: var(--text-light);
-  display: inline-block;
-  border-radius: 50%;
-  animation: typingAnimation 1.5s infinite ease-in-out;
-  margin: 0 2px;
-}
+    .typing-indicator span, .navapur-typing-indicator span {
+        height: 4px;
+        width: 4px;
+        background-color: var(--text-light);
+        display: inline-block;
+        border-radius: 50%;
+        animation: typingAnimation 1.5s infinite ease-in-out;
+        margin: 0 2px;
+    }
 
-.typing-indicator span:nth-child(2) {
-  animation-delay: 0.2s;
-}
+    .typing-indicator span:nth-child(2), .navapur-typing-indicator span:nth-child(2) {
+        animation-delay: 0.2s;
+    }
 
-.typing-indicator span:nth-child(3) {
-  animation-delay: 0.4s;
-}
+    .typing-indicator span:nth-child(3), .navapur-typing-indicator span:nth-child(3) {
+        animation-delay: 0.4s;
+    }
 
-@keyframes typingAnimation {
-  0% { transform: translateY(0); }
-  50% { transform: translateY(-5px); }
-  100% { transform: translateY(0); }
-}
+    @keyframes typingAnimation {
+        0% { transform: translateY(0); }
+        50% { transform: translateY(-5px); }
+        100% { transform: translateY(0); }
+    }
 
-/* Input Area */
-#chat-input-container {
-  display: flex;
-  padding: 10px;
-  background-color: var(--white);
-  border-top: 1px solid #eee;
-}
+    /* Input Area */
+    #chat-input-container {
+        display: flex;
+        padding: 10px;
+        background-color: var(--white);
+        border-top: 1px solid #eee;
+    }
 
-#chat-input {
-  flex: 1;
-  border: 1px solid #e0e0e0;
-  border-radius: 20px;
-  padding: 8px 15px;
-  outline: none;
-  font-size: 14px;
-}
+    #chat-input {
+        flex: 1;
+        border: 1px solid #e0e0e0;
+        border-radius: 20px;
+        padding: 8px 15px;
+        outline: none;
+        font-size: 14px;
+    }
 
-#chat-input:focus {
-  border-color: var(--light-purple);
-}
+    #chat-input:focus {
+        border-color: var(--light-purple);
+    }
 
-#send-button {
-  background-color: var(--primary-purple);
-  color: white;
-  border: none;
-  border-radius: 50%;
-  width: 36px;
-  height: 36px;
-  margin-left: 10px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: background-color 0.2s;
-}
+    #send-button {
+        background-color: var(--primary-purple);
+        color: white;
+        border: none;
+        border-radius: 50%;
+        width: 36px;
+        height: 36px;
+        margin-left: 10px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: background-color 0.2s;
+    }
 
-#send-button:hover {
-  background-color: var(--secondary-color);
-}
-  </style>
+    #send-button:hover {
+        background-color: var(--secondary-color);
+    }
+    </style>
   </head>
 
   <body>
     <div id="root"></div>
     <!-- Chatbot Widget -->
 <div id="chatbot-container">
-  <!-- Chat Window -->
-  <div id="chat-window">
-      <div id="chat-header">
-          <h3 id="chat-title">FRCRCE Campus Connect</h3>
-          <select id="language-selector" class="language-select">
-              <option value="en">English</option>
-              <option value="hi">हिंदी</option>
-              <option value="mr">मराठी</option>
-          </select>
-      </div>
-      <div id="chat-messages" class="messages"></div>
-      <div id="chat-input-container">
-          <input type="text" id="chat-input" class="chat-input" placeholder="Ask about events, councils, etc...">
-          <button id="send-button" class="send-btn">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                  <path d="M15.964.686a.5.5 0 0 0-.65-.65L.767 5.855H.766l-.452.18a.5.5 0 0 0-.082.887l.41.26.001.002 4.995 3.178 3.178 4.995.002.002.26.41a.5.5 0 0 0 .886-.083l6-15Zm-1.833 1.89L6.637 10.07l-.215-.338a.5.5 0 0 0-.154-.154l-.338-.215 7.494-7.494 1.178-.471-.47 1.178Z"/>
-              </svg>
-          </button>
-      </div>
-  </div>
-  
-  <!-- Chat Toggle Button -->
-  <div id="chat-toggle-btn">
-      <div id="chat-toggle-icon">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
-              <path d="M8 15c4.418 0 8-3.134 8-7s-3.582-7-8-7-8 3.134-8 7c0 1.76.743 3.37 1.97 4.6-.097 1.016-.417 2.13-.771 2.966-.079.186.074.394.273.362 2.256-.37 3.597-.938 4.18-1.234A9.06 9.06 0 0 0 8 15z"/>
-          </svg>
-      </div>
-  </div>
+    <!-- Chat Window -->
+    <div id="chat-window">
+        <div id="chat-header">
+            <h3 id="chat-title">FRCRCE Campus Connect</h3>
+            <select id="language-selector" class="language-select">
+                <option value="en">English</option>
+                <option value="hi">हिंदी (Hindi)</option>
+                <option value="mr">मराठी (Marathi)</option>
+                <option value="gu">ગુજરાતી (Gujarati)</option>
+                <option value="ta">தமிழ் (Tamil)</option>
+                <option value="te">తెలుగు (Telugu)</option>
+                <option value="kn">ಕನ್ನಡ (Kannada)</option>
+                <option value="ml">മലയാളം (Malayalam)</option>
+            </select>
+        </div>
+        <div id="chat-messages" class="messages"></div>
+        <div id="chat-input-container">
+            <input type="text" id="chat-input" class="chat-input" placeholder="Ask about events, councils, etc...">
+            <button id="send-button" class="send-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                    <path d="M15.964.686a.5.5 0 0 0-.65-.65L.767 5.855H.766l-.452.18a.5.5 0 0 0-.082.887l.41.26.001.002 4.995 3.178 3.178 4.995.002.002.26.41a.5.5 0 0 0 .886-.083l6-15Zm-1.833 1.89L6.637 10.07l-.215-.338a.5.5 0 0 0-.154-.154l-.338-.215 7.494-7.494 1.178-.471-.47 1.178Z"/>
+                </svg>
+            </button>
+        </div>
+    </div>
+    <!-- Chat Toggle Button -->
+    <div id="chat-toggle-btn">
+        <div id="chat-toggle-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
+                <path d="M8 15c4.418 0 8-3.134 8-7s-3.582-7-8-7-8 3.134-8 7c0 1.76.743 3.37 1.97 4.6-.097 1.016-.417 2.13-.771 2.966-.079.186.074.394.273.362 2.256-.37 3.597-.938 4.18-1.234A9.06 9.06 0 0 0 8 15z"/>
+            </svg>
+        </div>
+    </div>
 </div>
-    <!-- IMPORTANT: DO NOT REMOVE THIS SCRIPT TAG OR THIS VERY COMMENT! -->
-    <script src="https://cdn.gpteng.co/gptengineer.js" type="module"></script>
-    <script type="module" src="/src/main.tsx"></script>
-    <script>
-    // Gemini API Configuration
+
+<!-- Marked.js for Markdown rendering -->
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script type="module" src="./src/main.tsx"></script>
+
+<!-- Chatbot JavaScript -->
+<script>
 const GEMINI_API_KEY = 'AIzaSyAj9NCp0-9909MPLfds93gsO_gANOITjQQ';
 const GEMINI_API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent';
 
-// DOM Elements
-const chatToggleBtn = document.getElementById('chat-toggle-btn');
-const chatWindow = document.getElementById('chat-window');
-const chatInput = document.getElementById('chat-input');
-const sendButton = document.getElementById('send-button');
-const messagesContainer = document.getElementById('chat-messages');
-const languageSelect = document.getElementById('language-selector');
-
-// Train the model for FRCRCE Campus Connect
+// FRCRCE Campus Connect context prompt
 const CAMPUS_CONNECT_CONTEXT = `You are FRCRCE Campus Connect AI, an assistant designed to help students of Fr. Conceicao Rodrigues College of Engineering with information about college events, councils, registration processes, and other campus activities.
 
 Follow these guidelines:
@@ -272,8 +270,19 @@ Follow these guidelines:
 - Assist with basic troubleshooting for website features
 - When uncertain, acknowledge limitations and suggest contacting the relevant council or checking the official college website`;
 
+// DOM Elements
+const chatToggleBtn = document.getElementById('chat-toggle-btn');
+const chatWindow = document.getElementById('chat-window');
+const chatInput = document.getElementById('chat-input');
+const sendButton = document.getElementById('send-button');
+const messagesContainer = document.getElementById('chat-messages');
+const languageSelect = document.getElementById('language-selector');
+
 // Active language (default: English)
 let activeLanguage = 'en';
+
+// Conversation history to maintain context
+let conversationHistory = [];
 
 // Initialize the chat
 function initChat() {
@@ -284,16 +293,27 @@ function initChat() {
             chatInput.focus();
             // If this is first open, show welcome message
             if (messagesContainer.childElementCount === 0) {
-                addBotMessage("Hi there! I'm your FRCRCE Campus Connect assistant. I can help you with event registrations, council information, and campus activities. How can I assist you today?");
+                const welcomeMsg = getWelcomeMessage(activeLanguage);
+                addBotMessage(welcomeMsg);
+                conversationHistory.push({
+                    role: 'model',
+                    parts: [{ text: welcomeMsg }]
+                });
             }
         }
     });
 
     // Language selection event
     languageSelect.addEventListener('change', (e) => {
+        const oldLanguage = activeLanguage;
         activeLanguage = e.target.value;
-        // Add a system message about language change
-        addBotMessage(`I've switched to ${getLanguageName(activeLanguage)}. How can I help you?`);
+        conversationHistory = [];
+        const changeMsg = getLanguageChangeMessage(activeLanguage);
+        addBotMessage(changeMsg);
+        conversationHistory.push({
+            role: 'model',
+            parts: [{ text: changeMsg }]
+        });
     });
 
     // Send message events
@@ -305,48 +325,94 @@ function initChat() {
     });
 }
 
+// Get welcome message in selected language
+function getWelcomeMessage(language) {
+    const welcomeMessages = {
+        'en': "Welcome to FRCRCE Campus Connect AI assistant. I can help you with information about college events, councils, and campus activities. How can I assist you today?",
+        'hi': "FRCRCE Campus Connect AI सहायक में आपका स्वागत है। मैं कॉलेज की घटनाओं, परिषदों और गतिविधियों के बारे में जानकारी दे सकता हूँ। मैं आपकी कैसे सहायता कर सकता हूँ?",
+        'mr': "FRCRCE Campus Connect AI सहाय्यकात आपले स्वागत आहे. मी कॉलेजमधील कार्यक्रम, परिषद आणि उपक्रमांची माहिती देऊ शकतो. मी तुमची कशी मदत करू शकतो?",
+        'gu': "FRCRCE Campus Connect AI સહાયકમાં આપનું સ્વાગત છે. હું કોલેજની ઘટનાઓ, કાઉન્સિલ અને પ્રવૃત્તિઓ વિશે માહિતી આપી શકું છું. હું તમારી કેવી રીતે સહાય કરી શકું?",
+        'ta': "FRCRCE Campus Connect AI உதவியாளருக்கு வரவேற்கிறோம். நான் கல்லூரி நிகழ்வுகள், கவுன்சில்கள் மற்றும் செயல்பாடுகள் பற்றிய தகவலை வழங்க முடியும். நான் உங்களுக்கு எப்படி உதவ முடியும்?",
+        'te': "FRCRCE Campus Connect AI సహాయకుడికి స్వాగతం. నేను కళాశాల ఈవెంట్లు, కౌన్సిల్స్ మరియు కార్యకలాపాల గురించి సమాచారం ఇవ్వగలను. నేను మీకు ఎలా సహాయం చేయగలను?",
+        'kn': "FRCRCE Campus Connect AI ಸಹಾಯಕಕ್ಕೆ ಸ್ವಾಗತ. ನಾನು ಕಾಲೇಜಿನ ಘಟನೆಗಳು, ಪರಿಷತ್ತುಗಳು ಮತ್ತು ಚಟುವಟಿಕೆಗಳ ಬಗ್ಗೆ ಮಾಹಿತಿ ನೀಡಬಹುದು. ನಾನು ನಿಮಗೆ ಹೇಗೆ ಸಹಾಯ ಮಾಡಬಹುದು?",
+        'ml': "FRCRCE Campus Connect AI സഹായിയിലേക്ക് സ്വാഗതം. ഞാൻ കോളേജ് ഇവന്റുകൾ, കൗൺസിലുകൾ, പ്രവർത്തനങ്ങൾ എന്നിവയെക്കുറിച്ചുള്ള വിവരങ്ങൾ നൽകാം. ഞാൻ നിങ്ങളെ എങ്ങനെ സഹായിക്കാം?"
+    };
+    return welcomeMessages[language] || welcomeMessages['en'];
+}
+
+// Get language change message
+function getLanguageChangeMessage(language) {
+    const changeMessages = {
+        'en': "I've switched to English. How can I help you with FRCRCE Campus Connect?",
+        'hi': "मैंने हिंदी में बदल दिया है। FRCRCE Campus Connect में आपकी कैसे सहायता कर सकता हूँ?",
+        'mr': "मी मराठीत बदललो आहे. FRCRCE Campus Connect मध्ये मी तुमची कशी मदत करू शकतो?",
+        'gu': "હું હવે ગુજરાતી માં છું. FRCRCE Campus Connect માં હું તમારી કેવી રીતે મદદ કરી શકું?",
+        'ta': "நான் இப்போது தமிழில் இருக்கிறேன். FRCRCE Campus Connect இல் நான் உங்களுக்கு எப்படி உதவ முடியும்?",
+        'te': "నేను ఇప్పుడు తెలుగులో ఉన్నాను. FRCRCE Campus Connect లో నేను మీకు ఎలా సహాయం చేయగలను?",
+        'kn': "ನಾನು ಈಗ ಕನ್ನಡದಲ್ಲಿ ಇದ್ದೇನೆ. FRCRCE Campus Connect ನಲ್ಲಿ ನಾನು ನಿಮಗೆ ಹೇಗೆ ಸಹಾಯ ಮಾಡಬಹುದು?",
+        'ml': "ഞാൻ ഇപ്പോൾ മലയാളത്തിലാണ്. FRCRCE Campus Connect ൽ ഞാൻ നിങ്ങളെ എങ്ങനെ സഹായിക്കാം?"
+    };
+    return changeMessages[language] || changeMessages['en'];
+}
+
 // Maps language codes to full names
 function getLanguageName(code) {
     const languages = {
         'en': 'English',
-        'hi': 'Hindi',
-        'mr': 'Marathi'
+        'hi': 'Hindi (हिंदी)',
+        'mr': 'Marathi (मराठी)',
+        'gu': 'Gujarati (ગુજરાતી)',
+        'ta': 'Tamil (தமிழ்)',
+        'te': 'Telugu (తెలుగు)',
+        'kn': 'Kannada (ಕನ್ನಡ)',
+        'ml': 'Malayalam (മലയാളം)'
     };
     return languages[code] || 'English';
+}
+
+// Get language instruction for API
+function getLanguageInstruction(language) {
+    const instructions = {
+        'en': 'Please respond only in English.',
+        'hi': 'कृपया केवल हिंदी में उत्तर दें। Please respond only in Hindi language.',
+        'mr': 'कृपया फक्त मराठी भाषेत उत्तर द्या। Please respond only in Marathi language.',
+        'gu': 'કૃપા કરીને ફક્ત ગુજરાતી ભાષામાં જવાબ આપો। Please respond only in Gujarati language.',
+        'ta': 'தயவுசெய்து தமிழில் மட்டுமே பதிலளிக்கவும். Please respond only in Tamil language.',
+        'te': 'దయచేసి తెలుగులో మాత్రమే సమాధానం ఇవ్వండి। Please respond only in Telugu language.',
+        'kn': 'ದಯವಿಟ್ಟು ಕನ್ನಡದಲ್ಲಿ ಮಾತ್ರ ಉತ್ತರಿಸಿ। Please respond only in Kannada language.',
+        'ml': 'ദയവായി മലയാളത്തിൽ മാത്രം ഉത്തരം നൽകുക। Please respond only in Malayalam language.'
+    };
+    return instructions[language] || instructions['en'];
 }
 
 // Handle sending a message
 function handleSendMessage() {
     const message = chatInput.value.trim();
     if (message.length === 0) return;
-    
-    // Add user message to chat
     addUserMessage(message);
-    
-    // Clear input field
+    conversationHistory.push({
+        role: 'user',
+        parts: [{ text: message }]
+    });
     chatInput.value = '';
-    
-    // Show typing indicator
     showTypingIndicator();
-    
-    // Get response from AI
     getAIResponse(message);
 }
 
 // Add a user message to the chat
 function addUserMessage(message) {
     const messageElement = document.createElement('div');
-    messageElement.classList.add('message', 'user-message');
+    messageElement.classList.add('navapur-message', 'navapur-user-message');
     messageElement.textContent = message;
     messagesContainer.appendChild(messageElement);
     scrollToBottom();
 }
 
-// Add a bot message to the chat
+// Add a bot message to the chat (with markdown support)
 function addBotMessage(message) {
     const messageElement = document.createElement('div');
-    messageElement.classList.add('message', 'bot-message');
-    messageElement.textContent = message;
+    messageElement.classList.add('navapur-message', 'navapur-bot-message');
+    messageElement.innerHTML = marked.parse(message);
     messagesContainer.appendChild(messageElement);
     scrollToBottom();
 }
@@ -354,16 +420,16 @@ function addBotMessage(message) {
 // Show typing indicator
 function showTypingIndicator() {
     const typingElement = document.createElement('div');
-    typingElement.classList.add('message', 'bot-message', 'typing-indicator');
+    typingElement.classList.add('navapur-message', 'navapur-bot-message', 'navapur-typing-indicator');
     typingElement.innerHTML = '<span></span><span></span><span></span>';
-    typingElement.id = 'typing-indicator';
+    typingElement.id = 'navapur-typing-indicator';
     messagesContainer.appendChild(typingElement);
     scrollToBottom();
 }
 
 // Remove typing indicator
 function removeTypingIndicator() {
-    const typingElement = document.getElementById('typing-indicator');
+    const typingElement = document.getElementById('navapur-typing-indicator');
     if (typingElement) {
         typingElement.remove();
     }
@@ -377,11 +443,22 @@ function scrollToBottom() {
 // Get AI response from Gemini API
 async function getAIResponse(userMessage) {
     try {
-        // Create prompt based on active language
-        let languageInstruction = '';
-        if (activeLanguage !== 'en') {
-            languageInstruction = `Please respond in ${getLanguageName(activeLanguage)}.`;
-        }
+        // Create the system message with context and language instruction
+        const systemMessage = `${CAMPUS_CONNECT_CONTEXT}\n\n${getLanguageInstruction(activeLanguage)}\n\nIMPORTANT: 
+        1. You must respond in ${getLanguageName(activeLanguage)} language consistently throughout this conversation. Do not switch languages.
+        2. Always assume questions are about FRCRCE Campus Connect unless explicitly mentioned otherwise.
+        3. Remember and reference previous parts of our conversation when relevant.
+        4. If users ask general questions without mentioning FRCRCE, interpret them in the context of FRCRCE Campus Connect services.
+        5. Maintain conversation memory and continuity throughout our chat session.`;
+
+        // Prepare the conversation contents
+        const contents = [
+            {
+                role: 'user',
+                parts: [{ text: systemMessage }]
+            },
+            ...conversationHistory
+        ];
 
         const response = await fetch(`${GEMINI_API_URL}?key=${GEMINI_API_KEY}`, {
             method: 'POST',
@@ -389,39 +466,65 @@ async function getAIResponse(userMessage) {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                contents: [{
-                    parts: [{
-                        text: `${CAMPUS_CONNECT_CONTEXT}\n\n${languageInstruction}\n\nUser query: ${userMessage}\n\nAdditional context: The website FRCRCE Campus Connect helps students register for events, view galleries, join councils, and form teams for college activities at Fr. Conceicao Rodrigues College of Engineering.`
-                    }]
-                }]
+                contents: contents,
+                generationConfig: {
+                    temperature: 0.7,
+                    topK: 40,
+                    topP: 0.95,
+                    maxOutputTokens: 1024,
+                }
             })
         });
 
         const data = await response.json();
-        
+
         // Remove typing indicator
         removeTypingIndicator();
-        
+
         if (data.candidates && data.candidates[0] && data.candidates[0].content) {
             const aiResponse = data.candidates[0].content.parts[0].text;
             addBotMessage(aiResponse);
+
+            // Add AI response to conversation history
+            conversationHistory.push({
+                role: 'model',
+                parts: [{ text: aiResponse }]
+            });
+
+            // Limit conversation history to prevent token overflow (keep last 20 exchanges)
+            if (conversationHistory.length > 20) {
+                conversationHistory = conversationHistory.slice(-20);
+            }
         } else {
             // Handle API error
-            addBotMessage("I'm having trouble connecting right now. Please try again later or reach out to the Campus Connect support team.");
+            addBotMessage(getErrorMessage(activeLanguage));
             console.error("API Response Error:", data);
         }
     } catch (error) {
         // Remove typing indicator
         removeTypingIndicator();
-        
-        // Handle error
-        addBotMessage("I'm having trouble connecting right now. Please try again later or reach out to the Campus Connect support team.");
+        addBotMessage(getErrorMessage(activeLanguage));
         console.error("API Error:", error);
     }
 }
 
+// Get error message in selected language
+function getErrorMessage(language) {
+    const errorMessages = {
+        'en': "I'm having trouble connecting right now. Please try again later.",
+        'hi': 'मुझे अभी कनेक्ट करने में समस्या हो रही है। कृपया बाद में पुनः प्रयास करें।',
+        'mr': 'मला आत्ता कनेक्ट होण्यात समस्या येत आहे. कृपया नंतर पुन्हा प्रयत्न करा.',
+        'gu': 'મને અત્યારે કનેક્ટ કરવામાં સમસ્યા આવી રહી છે. કૃપા કરીને પછીથી ફરીથી પ્રયાસ કરો.',
+        'ta': 'எனக்கு இப்போது இணைப்பதில் சிக்கல் உள்ளது. தயவுசெய்து பின்னர் மீண்டும் முயற்சிக்கவும்.',
+        'te': 'నాకు ఇప్పుడు కనెక్ట్ చేయడంలో సమస్య ఉంది. దయచేసి తర్వాత మళ్లీ ప్రయత్నించండి.',
+        'kn': 'ನನಗೆ ಈಗ ಸಂಪರ್ಕಿಸುವಲ್ಲಿ ತೊಂದರೆ ಇದೆ. ದಯವಿಟ್ಟು ನಂತರ ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.',
+        'ml': 'എനിക്ക് ഇപ്പോൾ കണക്റ്റ് ചെയ്യുന്നതിൽ പ്രശ്നമുണ്ട്. ദയവായി പിന്നീട് വീണ്ടും ശ്രമിക്കുക.'
+    };
+    return errorMessages[language] || errorMessages['en'];
+}
+
 // Initialize chat when DOM is loaded
 document.addEventListener('DOMContentLoaded', initChat);
-    </script>
+</script>
   </body>
 </html>
