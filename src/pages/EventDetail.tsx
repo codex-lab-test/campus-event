@@ -1,4 +1,3 @@
-
 import { useParams, Link } from "react-router-dom";
 import { useState } from "react";
 import Navbar from "@/components/Navbar";
@@ -28,7 +27,7 @@ import { useToast } from "@/hooks/use-toast";
 const events = [
   {
     id: "1",
-    title: "TechFest Hackathon 2025",
+    title: "TechFest Hackathon",
     organizer: "Computer Science Association",
     date: "Nov 25, 2035",
     time: "9:00 AM - 12:30 PM",
@@ -82,7 +81,7 @@ const events = [
     teamSize: "3-5",
     minTeamSize: 3,
     maxTeamSize: 5,
-    registrationDeadline: "2035-05-25",
+    registrationDeadline: "2035-05-30",
     description: "BitnBuild Hackathon is a dynamic tech event that brings together developers, designers, and innovators to collaborate and build impactful software or hardware solutions within a limited time frame.",
     rules: [
       "Teams can consist of 2 to 4 members",
@@ -403,17 +402,19 @@ const EventDetail = () => {
         
         {/* Registration Dialog */}
         <Dialog open={showRegistrationForm} onOpenChange={setShowRegistrationForm}>
-          <DialogContent className="max-w-2xl">
+          <DialogContent className="w-full max-w-lg sm:max-w-xl md:max-w-2xl p-0 sm:p-6 overflow-y-auto max-h-[90vh]">
             <DialogHeader>
               <DialogTitle>Register for {event.title}</DialogTitle>
             </DialogHeader>
-            <EventRegistrationForm 
-              eventId={event.id}
-              eventTitle={event.title}
-              minTeamSize={event.minTeamSize}
-              maxTeamSize={event.maxTeamSize}
-              onSuccess={handleRegistrationSuccess}
-            />
+            <Card className="w-full p-2 sm:p-6">
+              <EventRegistrationForm 
+                eventId={event.id}
+                eventTitle={event.title}
+                minTeamSize={event.minTeamSize}
+                maxTeamSize={event.maxTeamSize}
+                onSuccess={handleRegistrationSuccess}
+              />
+            </Card>
           </DialogContent>
         </Dialog>
       </main>
