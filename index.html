@@ -257,10 +257,10 @@
 
 <!-- Chatbot JavaScript -->
 <script>
-const GEMINI_API_KEY = 'AIzaSyB-MAmNN8fku7z_mQlS-hapz1hGVxaHeBw';
-const GEMINI_API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent';
+const GEMINI_API_KEY = "AIzaSyAlBP2fpqHPaIkhAto8KaBSRMgpnPV2ZMM"; 
+const GEMINI_API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent";
 
-// FRCRCE Campus Connect context prompt
+// Context prompt
 const CAMPUS_CONNECT_CONTEXT = `You are FRCRCE Campus Connect AI, an assistant designed to help students of Fr. Conceicao Rodrigues College of Engineering with information about college events, councils, registration processes, and other campus activities.
 
 Follow these guidelines:
@@ -271,260 +271,161 @@ Follow these guidelines:
 - When uncertain, acknowledge limitations and suggest contacting the relevant council or checking the official college website`;
 
 // DOM Elements
-const chatToggleBtn = document.getElementById('chat-toggle-btn');
-const chatWindow = document.getElementById('chat-window');
-const chatInput = document.getElementById('chat-input');
-const sendButton = document.getElementById('send-button');
-const messagesContainer = document.getElementById('chat-messages');
-const languageSelect = document.getElementById('language-selector');
+const chatToggleBtn = document.getElementById("chat-toggle-btn");
+const chatWindow = document.getElementById("chat-window");
+const chatInput = document.getElementById("chat-input");
+const sendButton = document.getElementById("send-button");
+const messagesContainer = document.getElementById("chat-messages");
+const languageSelect = document.getElementById("language-selector");
 
-// Active language (default: English)
-let activeLanguage = 'en';
-
-// Conversation history to maintain context
+let activeLanguage = "en";
 let conversationHistory = [];
 
-// Initialize the chat
+// Initialize chat
 function initChat() {
-    // Toggle chat window visibility
-    chatToggleBtn.addEventListener('click', () => {
-        chatWindow.classList.toggle('active');
-        if (chatWindow.classList.contains('active')) {
-            chatInput.focus();
-            // If this is first open, show welcome message
-            if (messagesContainer.childElementCount === 0) {
-                const welcomeMsg = getWelcomeMessage(activeLanguage);
-                addBotMessage(welcomeMsg);
-                conversationHistory.push({
-                    role: 'model',
-                    parts: [{ text: welcomeMsg }]
-                });
-            }
-        }
-    });
+  // Toggle chat window
+  chatToggleBtn.addEventListener("click", () => {
+    chatWindow.classList.toggle("active");
+    if (chatWindow.classList.contains("active")) {
+      chatInput.focus();
+      if (messagesContainer.childElementCount === 0) {
+        const welcomeMsg = getWelcomeMessage(activeLanguage);
+        addBotMessage(welcomeMsg);
+        conversationHistory.push({ role: "model", parts: [{ text: welcomeMsg }] });
+      }
+    }
+  });
 
-    // Language selection event
-    languageSelect.addEventListener('change', (e) => {
-        const oldLanguage = activeLanguage;
-        activeLanguage = e.target.value;
-        conversationHistory = [];
-        const changeMsg = getLanguageChangeMessage(activeLanguage);
-        addBotMessage(changeMsg);
-        conversationHistory.push({
-            role: 'model',
-            parts: [{ text: changeMsg }]
-        });
-    });
+  // Language change
+  languageSelect.addEventListener("change", (e) => {
+    activeLanguage = e.target.value;
+    conversationHistory = [];
+    const changeMsg = getLanguageChangeMessage(activeLanguage);
+    addBotMessage(changeMsg);
+    conversationHistory.push({ role: "model", parts: [{ text: changeMsg }] });
+  });
 
-    // Send message events
-    sendButton.addEventListener('click', handleSendMessage);
-    chatInput.addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') {
-            handleSendMessage();
-        }
-    });
+  sendButton.addEventListener("click", handleSendMessage);
+  chatInput.addEventListener("keypress", (e) => {
+    if (e.key === "Enter") handleSendMessage();
+  });
 }
 
-// Get welcome message in selected language
-function getWelcomeMessage(language) {
-    const welcomeMessages = {
-        'en': "Welcome to FRCRCE Campus Connect AI assistant. I can help you with information about college events, councils, and campus activities. How can I assist you today?",
-        'hi': "FRCRCE Campus Connect AI सहायक में आपका स्वागत है। मैं कॉलेज की घटनाओं, परिषदों और गतिविधियों के बारे में जानकारी दे सकता हूँ। मैं आपकी कैसे सहायता कर सकता हूँ?",
-        'mr': "FRCRCE Campus Connect AI सहाय्यकात आपले स्वागत आहे. मी कॉलेजमधील कार्यक्रम, परिषद आणि उपक्रमांची माहिती देऊ शकतो. मी तुमची कशी मदत करू शकतो?",
-        'gu': "FRCRCE Campus Connect AI સહાયકમાં આપનું સ્વાગત છે. હું કોલેજની ઘટનાઓ, કાઉન્સિલ અને પ્રવૃત્તિઓ વિશે માહિતી આપી શકું છું. હું તમારી કેવી રીતે સહાય કરી શકું?",
-        'ta': "FRCRCE Campus Connect AI உதவியாளருக்கு வரவேற்கிறோம். நான் கல்லூரி நிகழ்வுகள், கவுன்சில்கள் மற்றும் செயல்பாடுகள் பற்றிய தகவலை வழங்க முடியும். நான் உங்களுக்கு எப்படி உதவ முடியும்?",
-        'te': "FRCRCE Campus Connect AI సహాయకుడికి స్వాగతం. నేను కళాశాల ఈవెంట్లు, కౌన్సిల్స్ మరియు కార్యకలాపాల గురించి సమాచారం ఇవ్వగలను. నేను మీకు ఎలా సహాయం చేయగలను?",
-        'kn': "FRCRCE Campus Connect AI ಸಹಾಯಕಕ್ಕೆ ಸ್ವಾಗತ. ನಾನು ಕಾಲೇಜಿನ ಘಟನೆಗಳು, ಪರಿಷತ್ತುಗಳು ಮತ್ತು ಚಟುವಟಿಕೆಗಳ ಬಗ್ಗೆ ಮಾಹಿತಿ ನೀಡಬಹುದು. ನಾನು ನಿಮಗೆ ಹೇಗೆ ಸಹಾಯ ಮಾಡಬಹುದು?",
-        'ml': "FRCRCE Campus Connect AI സഹായിയിലേക്ക് സ്വാഗതം. ഞാൻ കോളേജ് ഇവന്റുകൾ, കൗൺസിലുകൾ, പ്രവർത്തനങ്ങൾ എന്നിവയെക്കുറിച്ചുള്ള വിവരങ്ങൾ നൽകാം. ഞാൻ നിങ്ങളെ എങ്ങനെ സഹായിക്കാം?"
-    };
-    return welcomeMessages[language] || welcomeMessages['en'];
+// Messages + AI
+function getWelcomeMessage(lang) {
+  const msgs = {
+    en: "Welcome to FRCRCE Campus Connect AI assistant...",
+    hi: "FRCRCE Campus Connect AI सहायक में आपका स्वागत है...",
+    mr: "FRCRCE Campus Connect AI सहाय्यकात आपले स्वागत आहे...",
+    gu: "FRCRCE Campus Connect AI સહાયકમાં આપનું સ્વાગત છે...",
+    ta: "FRCRCE Campus Connect AI உதவியாளருக்கு வரவேற்கிறோம்...",
+    te: "FRCRCE Campus Connect AI సహాయకుడికి స్వాగతం...",
+    kn: "FRCRCE Campus Connect AI ಸಹಾಯಕಕ್ಕೆ ಸ್ವಾಗತ...",
+    ml: "FRCRCE Campus Connect AI സഹായിയിലേക്ക് സ്വാഗതം..."
+  };
+  return msgs[lang] || msgs.en;
 }
 
-// Get language change message
-function getLanguageChangeMessage(language) {
-    const changeMessages = {
-        'en': "I've switched to English. How can I help you with FRCRCE Campus Connect?",
-        'hi': "मैंने हिंदी में बदल दिया है। FRCRCE Campus Connect में आपकी कैसे सहायता कर सकता हूँ?",
-        'mr': "मी मराठीत बदललो आहे. FRCRCE Campus Connect मध्ये मी तुमची कशी मदत करू शकतो?",
-        'gu': "હું હવે ગુજરાતી માં છું. FRCRCE Campus Connect માં હું તમારી કેવી રીતે મદદ કરી શકું?",
-        'ta': "நான் இப்போது தமிழில் இருக்கிறேன். FRCRCE Campus Connect இல் நான் உங்களுக்கு எப்படி உதவ முடியும்?",
-        'te': "నేను ఇప్పుడు తెలుగులో ఉన్నాను. FRCRCE Campus Connect లో నేను మీకు ఎలా సహాయం చేయగలను?",
-        'kn': "ನಾನು ಈಗ ಕನ್ನಡದಲ್ಲಿ ಇದ್ದೇನೆ. FRCRCE Campus Connect ನಲ್ಲಿ ನಾನು ನಿಮಗೆ ಹೇಗೆ ಸಹಾಯ ಮಾಡಬಹುದು?",
-        'ml': "ഞാൻ ഇപ്പോൾ മലയാളത്തിലാണ്. FRCRCE Campus Connect ൽ ഞാൻ നിങ്ങളെ എങ്ങനെ സഹായിക്കാം?"
-    };
-    return changeMessages[language] || changeMessages['en'];
+function getLanguageChangeMessage(lang) {
+  const msgs = {
+    en: "I've switched to English...",
+    hi: "मैंने हिंदी में बदल दिया है...",
+    mr: "मी मराठीत बदललो आहे...",
+    gu: "હું હવે ગુજરાતી માં છું...",
+    ta: "நான் இப்போது தமிழில் இருக்கிறேன்...",
+    te: "నేను ఇప్పుడు తెలుగులో ఉన్నాను...",
+    kn: "ನಾನು ಈಗ ಕನ್ನಡದಲ್ಲಿ ಇದ್ದೇನೆ...",
+    ml: "ഞാൻ ഇപ്പോൾ മലയാളത്തിലാണ്..."
+  };
+  return msgs[lang] || msgs.en;
 }
 
-// Maps language codes to full names
-function getLanguageName(code) {
-    const languages = {
-        'en': 'English',
-        'hi': 'Hindi (हिंदी)',
-        'mr': 'Marathi (मराठी)',
-        'gu': 'Gujarati (ગુજરાતી)',
-        'ta': 'Tamil (தமிழ்)',
-        'te': 'Telugu (తెలుగు)',
-        'kn': 'Kannada (ಕನ್ನಡ)',
-        'ml': 'Malayalam (മലയാളം)'
-    };
-    return languages[code] || 'English';
+function getLanguageInstruction(lang) {
+  const instr = {
+    en: "Please respond only in English.",
+    hi: "कृपया केवल हिंदी में उत्तर दें।",
+    mr: "कृपया फक्त मराठी भाषेत उत्तर द्या।",
+    gu: "કૃપા કરીને ફક્ત ગુજરાતી ભાષામાં જવાબ આપો।",
+    ta: "தயவுசெய்து தமிழில் மட்டுமே பதிலளிக்கவும்.",
+    te: "దయచేసి తెలుగులో మాత్రమే సమాధానం ఇవ్వండి.",
+    kn: "ದಯವಿಟ್ಟು ಕನ್ನಡದಲ್ಲಿ ಮಾತ್ರ ಉತ್ತರಿಸಿ.",
+    ml: "ദയവായി മലയാളത്തിൽ മാത്രം ഉത്തരം നൽകുക."
+  };
+  return instr[lang] || instr.en;
 }
 
-// Get language instruction for API
-function getLanguageInstruction(language) {
-    const instructions = {
-        'en': 'Please respond only in English.',
-        'hi': 'कृपया केवल हिंदी में उत्तर दें। Please respond only in Hindi language.',
-        'mr': 'कृपया फक्त मराठी भाषेत उत्तर द्या। Please respond only in Marathi language.',
-        'gu': 'કૃપા કરીને ફક્ત ગુજરાતી ભાષામાં જવાબ આપો। Please respond only in Gujarati language.',
-        'ta': 'தயவுசெய்து தமிழில் மட்டுமே பதிலளிக்கவும். Please respond only in Tamil language.',
-        'te': 'దయచేసి తెలుగులో మాత్రమే సమాధానం ఇవ్వండి। Please respond only in Telugu language.',
-        'kn': 'ದಯವಿಟ್ಟು ಕನ್ನಡದಲ್ಲಿ ಮಾತ್ರ ಉತ್ತರಿಸಿ। Please respond only in Kannada language.',
-        'ml': 'ദയവായി മലയാളത്തിൽ മാത്രം ഉത്തരം നൽകുക। Please respond only in Malayalam language.'
-    };
-    return instructions[language] || instructions['en'];
-}
-
-// Handle sending a message
 function handleSendMessage() {
-    const message = chatInput.value.trim();
-    if (message.length === 0) return;
-    addUserMessage(message);
-    conversationHistory.push({
-        role: 'user',
-        parts: [{ text: message }]
-    });
-    chatInput.value = '';
-    showTypingIndicator();
-    getAIResponse(message);
+  const msg = chatInput.value.trim();
+  if (!msg) return;
+  addUserMessage(msg);
+  conversationHistory.push({ role: "user", parts: [{ text: msg }] });
+  chatInput.value = "";
+  showTypingIndicator();
+  getAIResponse(msg);
 }
 
-// Add a user message to the chat
-function addUserMessage(message) {
-    const messageElement = document.createElement('div');
-    messageElement.classList.add('navapur-message', 'navapur-user-message');
-    messageElement.textContent = message;
-    messagesContainer.appendChild(messageElement);
-    scrollToBottom();
+function addUserMessage(msg) {
+  const el = document.createElement("div");
+  el.classList.add("navapur-message", "navapur-user-message");
+  el.textContent = msg;
+  messagesContainer.appendChild(el);
+  scrollToBottom();
 }
 
-// Add a bot message to the chat (with markdown support)
-function addBotMessage(message) {
-    const messageElement = document.createElement('div');
-    messageElement.classList.add('navapur-message', 'navapur-bot-message');
-    messageElement.innerHTML = marked.parse(message);
-    messagesContainer.appendChild(messageElement);
-    scrollToBottom();
+function addBotMessage(msg) {
+  const el = document.createElement("div");
+  el.classList.add("navapur-message", "navapur-bot-message");
+  el.innerHTML = marked.parse(msg);
+  messagesContainer.appendChild(el);
+  scrollToBottom();
 }
 
-// Show typing indicator
 function showTypingIndicator() {
-    const typingElement = document.createElement('div');
-    typingElement.classList.add('navapur-message', 'navapur-bot-message', 'navapur-typing-indicator');
-    typingElement.innerHTML = '<span></span><span></span><span></span>';
-    typingElement.id = 'navapur-typing-indicator';
-    messagesContainer.appendChild(typingElement);
-    scrollToBottom();
+  const el = document.createElement("div");
+  el.classList.add("navapur-message", "navapur-bot-message", "navapur-typing-indicator");
+  el.innerHTML = "<span></span><span></span><span></span>";
+  el.id = "typing-indicator";
+  messagesContainer.appendChild(el);
+  scrollToBottom();
 }
 
-// Remove typing indicator
 function removeTypingIndicator() {
-    const typingElement = document.getElementById('navapur-typing-indicator');
-    if (typingElement) {
-        typingElement.remove();
-    }
+  const el = document.getElementById("typing-indicator");
+  if (el) el.remove();
 }
 
-// Scroll chat to bottom
 function scrollToBottom() {
-    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+  messagesContainer.scrollTop = messagesContainer.scrollHeight;
 }
 
-// ✅ Corrected: Get AI response from Gemini API
+// AI API call
 async function getAIResponse(userMessage) {
-    try {
-        // Create the system message with context and language instruction
-        const systemMessage = `${CAMPUS_CONNECT_CONTEXT}\n\n${getLanguageInstruction(activeLanguage)}\n\nIMPORTANT: 
-        1. You must respond in ${getLanguageName(activeLanguage)} language consistently throughout this conversation. Do not switch languages.
-        2. Always assume questions are about FRCRCE Campus Connect unless explicitly mentioned otherwise.
-        3. Remember and reference previous parts of our conversation when relevant.
-        4. If users ask general questions without mentioning FRCRCE, interpret them in the context of FRCRCE Campus Connect services.
-        5. Maintain conversation memory and continuity throughout our chat session.`;
-
-        // Prepare the conversation contents
-        const contents = [
-            {
-                role: 'user',
-                parts: [{ text: systemMessage }]
-            },
-            ...conversationHistory
-        ];
-
-        const response = await fetch(`${GEMINI_API_URL}?key=${GEMINI_API_KEY}`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                contents: contents,
-                generationConfig: {
-                    temperature: 0.7,
-                    topK: 40,
-                    topP: 0.95,
-                    maxOutputTokens: 1024,
-                }
-            })
-        });
-
-        const data = await response.json();
-
-        // Remove typing indicator
-        removeTypingIndicator();
-
-        if (data.candidates && data.candidates[0] && data.candidates[0].content) {
-            const aiResponse = data.candidates[0].content.parts[0].text;
-            addBotMessage(aiResponse);
-
-            // Add AI response to conversation history
-            conversationHistory.push({
-                role: 'model',
-                parts: [{ text: aiResponse }]
-            });
-
-            // Limit conversation history to prevent token overflow (keep last 20 exchanges)
-            if (conversationHistory.length > 20) {
-                conversationHistory = conversationHistory.slice(-20);
-            }
-        } else {
-            // Handle API error
-            addBotMessage(getErrorMessage(activeLanguage));
-            console.error("API Response Error:", data);
-        }
-    } catch (error) {
-        // Remove typing indicator
-        removeTypingIndicator();
-        addBotMessage(getErrorMessage(activeLanguage));
-        console.error("API Error:", error);
+  try {
+    const systemMsg = `${CAMPUS_CONNECT_CONTEXT}\n\n${getLanguageInstruction(activeLanguage)}`;
+    const contents = [{ role: "user", parts: [{ text: systemMsg }] }, ...conversationHistory];
+    const res = await fetch(`${GEMINI_API_URL}?key=${GEMINI_API_KEY}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ contents, generationConfig: { temperature: 0.7, maxOutputTokens: 1024 } })
+    });
+    const data = await res.json();
+    removeTypingIndicator();
+    if (data.candidates?.[0]?.content) {
+      const reply = data.candidates[0].content.parts[0].text;
+      addBotMessage(reply);
+      conversationHistory.push({ role: "model", parts: [{ text: reply }] });
+      if (conversationHistory.length > 20) conversationHistory = conversationHistory.slice(-20);
+    } else {
+      addBotMessage("⚠️ Sorry, I couldn't get a response. Try again later.");
     }
+  } catch (err) {
+    removeTypingIndicator();
+    addBotMessage("⚠️ Error connecting to AI service.");
+    console.error(err);
+  }
 }
 
-// Get error message in selected language
-function getErrorMessage(language) {
-    const errorMessages = {
-        'en': "I'm having trouble connecting right now. Please try again later.",
-        'hi': 'मुझे अभी कनेक्ट करने में समस्या हो रही है। कृपया बाद में पुनः प्रयास करें।',
-        'mr': 'मला आत्ता कनेक्ट होण्यात समस्या येत आहे. कृपया नंतर पुन्हा प्रयत्न करा.',
-        'gu': 'મને અત્યારે કનેક્ટ કરવામાં સમસ્યા આવી રહી છે. કૃપા કરીને પછીથી ફરીથી પ્રયાસ કરો.',
-        'ta': 'எனக்கு இப்போது இணைப்பதில் சிக்கல் உள்ளது. தயவுசெய்து பின்னர் மீண்டும் முயற்சிக்கவும்.',
-        'te': 'నాకు ఇప్పుడు కనెక్ట్ చేయడంలో సమస్య ఉంది. దయచేసి తర్వాత మళ్లీ ప్రయత్నించండి.',
-        'kn': 'ನನಗೆ ಈಗ ಸಂಪರ್ಕಿಸುವಲ್ಲಿ ತೊಂದರೆ ಇದೆ. ದಯವಿಟ್ಟು ನಂತರ ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.',
-        'ml': 'എനിക്ക് ഇപ്പോൾ കണക്റ്റ് ചെയ്യുന്നതിൽ പ്രശ്നമുണ്ട്. ദയവായി പിന്നീട് വീണ്ടും ശ്രമിക്കുക.'
-    };
-    return errorMessages[language] || errorMessages['en'];
-}
-
-// Initialize chat when DOM is loaded
-document.addEventListener('DOMContentLoaded', initChat);
+document.addEventListener("DOMContentLoaded", initChat);
 </script>
 
   </body>
