@@ -258,7 +258,9 @@
 <!-- Chatbot JavaScript -->
 <script>
 const GEMINI_API_KEY = 'AIzaSyB-MAmNN8fku7z_mQlS-hapz1hGVxaHeBw';
-const GEMINI_API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent';
+<script>
+const GEMINI_API_KEY = 'YOUR_API_KEY_HERE';
+const GEMINI_API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent';
 
 // FRCRCE Campus Connect context prompt
 const CAMPUS_CONNECT_CONTEXT = `You are FRCRCE Campus Connect AI, an assistant designed to help students of Fr. Conceicao Rodrigues College of Engineering with information about college events, councils, registration processes, and other campus activities.
@@ -440,7 +442,7 @@ function scrollToBottom() {
     messagesContainer.scrollTop = messagesContainer.scrollHeight;
 }
 
-// Get AI response from Gemini API
+// ✅ Corrected: Get AI response from Gemini API
 async function getAIResponse(userMessage) {
     try {
         // Create the system message with context and language instruction
@@ -526,5 +528,6 @@ function getErrorMessage(language) {
 // Initialize chat when DOM is loaded
 document.addEventListener('DOMContentLoaded', initChat);
 </script>
+
   </body>
 </html>
